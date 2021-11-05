@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import {Text, TouchableOpacity, View, StyleSheet, Modal, FlatList, TextInput} from 'react-native'
+import {Text, TouchableOpacity, View, StyleSheet, Modal, FlatList, TextInput, Image} from 'react-native'
 import { db, auth } from '../firebase/config';
 import firebase from 'firebase'
+import { lemonchiffon } from 'color-name';
 
 class Post extends Component{
     constructor(props){
@@ -65,7 +66,6 @@ class Post extends Component{
     }
 
     guardarComentario(){
-        console.log('guardando comentario')
         //armar el comentario que vamos a guardar
         let oneComment = {
             createdAt: Date.now(),
@@ -90,20 +90,33 @@ class Post extends Component{
             <View style={styles.container}>
                 <Text>Texto del post: {this.props.postData.data.texto}</Text>
                 <Text>User: {this.props.postData.data.owner}</Text>
-                <Text>Likes: {this.state.likes}</Text>
+                <Text>Fecha de creacion: {this.props.postData.data.createdAt}</Text>
                 { //Cambio de botones me gusta / quitar like
                     this.state.myLike === false ?
                     <TouchableOpacity onPress={() => this.darLike() }> 
-                        <Text>Me gusta</Text>
+                        <Image style={styles.image}
+                            source={require('../../assets/deslikeada.png')}
+                            resizeMode='contain'
+                        />
                     </TouchableOpacity> :
                     <TouchableOpacity onPress={() => this.quitarLike() }> 
-                        <Text>Quitar Like</Text>
+                        <Image style={styles.image}
+                            source={require('../../assets/likeada.png')}
+                            resizeMode='contain'
+                        />
                     </TouchableOpacity>
                 }
+                <Text>{this.state.likes} Likes</Text>
 
                 {/* Ver modal */}
                 <TouchableOpacity onPress={() => this.showModal() }> 
-                        <Text>Ver comentarios</Text>
+                {/* {
+                    this.props.postData.data.comments.length > 1 ?
+                    <Text>Ver {this.props.postData.data.comments.length} comentarios</Text> :
+                    <Text>Ver {this.props.postData.data.comments.length} comentario</Text> 
+                } */}
+                <Text>Ver comentarios</Text> 
+
                 </TouchableOpacity>
 
                 {/* Modal para comentarios */}
@@ -111,18 +124,23 @@ class Post extends Component{
                     <Modal 
                         style={styles.modalContainer}
                         visible={this.state.showModal}
-                        animationType='slide'
+                        animationType='fade'
                         transparent={false}
                     > 
                         <TouchableOpacity onPress={() => this.hideModal() }> 
                             <Text style={styles.closeButton}>X</Text>
                         </TouchableOpacity>
-                        {/* FlarList para mostrar comentarios */}
-                        <FlatList 
-                            data={this.props.postData.data.comments} //el array
-                            keyExtractor={(comment) => comment.createdAt.toString()} //es equivalente a la prop key que necesitamos para el map y comment es cada uno de los elementos del array
-                            renderItem={({item}) => <Text>{item.author}: {item.comment}</Text>}
-                        />
+                        {/* FlatList para mostrar comentarios */}
+                        {
+                            this.props.postData.data.comments === '' ?
+                            <Text>Aún no hay comentarios. Sé el primero en opinar!</Text> :
+                            <FlatList 
+                                data={this.props.postData.data.comments} //el array
+                                keyExtractor={(comment) => comment.createdAt.toString()} //es equivalente a la prop key que necesitamos para el map y comment es cada uno de los elementos del array
+                                renderItem={({item}) => <Text>{item.author}: {item.comment}</Text>}
+                            />
+                        }
+                        
                         {/* Formulario para nuevo comentario */}
                         <View>
                             <TextInput 
@@ -195,6 +213,13 @@ const styles = StyleSheet.create({
     },
     textButton: {
         color: '#fff',
+    },
+    image:{
+        height: 25,
+        // alignSelf: 'flex-start',
+        // position: 'absolute',
+        // left: 0,
+        // top: 5,
     }
 
 })

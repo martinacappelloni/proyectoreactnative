@@ -5,7 +5,7 @@ class Profile extends Component{
     constructor(props){
         super(props);
         this.state = {
-            userData: this.props.userData,
+            // userData: this.props.userData,
         }
     }
 
@@ -15,7 +15,8 @@ class Profile extends Component{
             <View>
                 <View>
                     <Text>Email registrado: {this.props.userData.email}</Text>
-                    <Text>Usuario creado: {this.props.userData.metadata.creationTime}</Text>
+                    {/* <Text>User registrado: {this.props.userData.user}</Text> */}
+                    {/* <Text>Usuario creado: {this.props.userData.metadata.creationTime}</Text> */}
                     <Text>Ultimo login: {this.props.userData.metadata.lastSignInTime}</Text>
                     <TouchableOpacity style={styles.touchable} onPress={() => this.props.logout(this.state.email, this.state.password)} > 
                         <Text style={styles.text}>Logout</Text>
