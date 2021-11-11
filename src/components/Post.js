@@ -99,7 +99,7 @@ render(){
             </TouchableOpacity>:
 
             <TouchableOpacity onPress={()=> this.quitarLike()} style={styles.boton}>
-                <Text style={styles.textboton}> Quitar like </Text> 
+                <Text > Quitar like </Text> 
             </TouchableOpacity>
             }
 
