@@ -2,38 +2,28 @@ import React, {Component} from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 
 
-class Login extends Component{
+class CommentForm extends Component{
 constructor(props){
     super(props);
     this.state={
-        email: '',
-        password: '',
+        comentario: '',
     }
 }
-// onSubmit(){
-//     console.log(`El email ingresado es: ${this.state.email}`)
-//     console.log(`La password ingresado es: ${this.state.password}`)
-// }
-
+onSubmit(){
+    console.log(`El comentario ingresado es: ${this.state.comentario}`)
+}
 render(){
     return(
         <View style={styles.formContainer}>
-         <Text>Login</Text>
-        <TextInput style={styles.field} 
-        keyboardType='email-address'
-        placeholder='email'
-        onChangeText={ text => this.setState({email:text}) }/>
-    
+         <Text>Comentario</Text>
         <TextInput style={styles.field} 
         keyboardType='default'
-        placeholder='password'
-        secureTextEntry={true} 
-        onChangeText={ text => this.setState({password:text}) }/>
-
-        <Text> {this.props.errorMsj} </Text>   
-        
-        <TouchableOpacity style={styles.boton} onPress={() => this.props.login(this.state.email, this.state.password)}>
-        <Text style={styles.textboton}> Login </Text> 
+        placeholder='comentario'
+        onChangeText={ text => this.setState({comentario:text}) }/>
+    
+            
+        <TouchableOpacity style={styles.boton} onPress={() => this.onSubmit()}>
+        <Text style={styles.textboton}> Haz click aquí </Text> 
         </TouchableOpacity> 
     </View>
     )
@@ -70,4 +60,4 @@ const styles = StyleSheet.create({
        color: '#fff',
    },
  }) 
- export default Login;
+ export default CommentForm;
