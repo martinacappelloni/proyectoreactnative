@@ -40,14 +40,9 @@ render(){
             data = {this.state.posteos}
             keyExtractor = { post => post.id}
             renderItem = {({item}) => <Post postData={item} /> } 
-            // <Text>{item.data.texto}</Text>} --> podriamo armar un componente mas complejo y renderizarlo con los datos de cada doc
+            // <Text>{item.data.texto}</Text>} --> podriamos armar un componente mas complejo y renderizarlo con los datos de cada doc
             />
         
-            <Image 
-            style={styles.image}
-            source={require('../../assets/characters/homero.jpg')}
-            resizeMode="contain"
-            />
 
         </View>
         )  

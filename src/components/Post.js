@@ -98,7 +98,7 @@ render(){
                 <Text> Me gusta </Text> 
             </TouchableOpacity>:
 
-            <TouchableOpacity onPress={()=> this.quitarLike()} style={styles.boton}>
+            <TouchableOpacity onPress={()=> this.quitarLike()} >
                 <Text > Quitar like </Text> 
             </TouchableOpacity>
             }
