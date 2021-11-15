@@ -1,4 +1,3 @@
-import { NavigationContainer } from '@react-navigation/native';
 import React, {Component} from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import MyCamera from '../components/MyCamera';
@@ -20,6 +19,7 @@ submitPost(){
         owner: auth.currentUser.email,
         texto: this.state.textoPost,
         createdAt: Date.now(),
+        username: auth.currentUser.displayName,
         photo: this.state.url
     })
     .then(() =>{ // limpiar el form de cargo
@@ -64,6 +64,7 @@ render(){
 const styles = StyleSheet.create({
     container:{
         flex: 1,
+        backgroundColor: '#302c2e',
     },
     formContainer: {
         paddingHorizontal: 10,

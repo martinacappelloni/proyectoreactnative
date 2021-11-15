@@ -84,17 +84,30 @@ class Post extends Component{
         })
     }
 
+    eliminarPosteo(){
+        db.collection('posts').where('createdAt', '==', this.props.postData.data.createdAt).onSnapshot(
+            docs => {
+                console.log(docs);
+
+                //Array para crear datos en formato útil
+                docs.forEach( doc => {
+                    doc.ref.delete()
+                })
+            }
+        )
+    }
+
     render(){
         console.log(this.props.postData.data.comments);
         return(
             <View style={styles.container}>
+                <Text style={styles.texto}>User: {this.props.postData.data.displayName}</Text>
                 <Image style={styles.image}
                 source={{uri: `${this.props.postData.data.photo}`}}
                 resizeMode='contain'
                 />
-                <Text>Texto del post: {this.props.postData.data.texto}</Text>
-                <Text>User: {this.props.postData.data.owner}</Text>
-                <Text>Fecha de creacion: {this.props.postData.data.createdAt}</Text>
+                <Text style={styles.texto}>Texto del post: {this.props.postData.data.texto}</Text>
+                <Text style={styles.texto}>Fecha de creacion: {this.props.postData.data.createdAt}</Text>
                 { //Cambio de botones me gusta / quitar like
                     this.state.myLike === false ?
                     <TouchableOpacity onPress={() => this.darLike() }> 
@@ -110,18 +123,17 @@ class Post extends Component{
                         />
                     </TouchableOpacity>
                 }
-                <Text>{this.state.likes} Likes</Text>
+                <Text style={styles.texto}>{this.state.likes} Likes</Text>
 
                 {/* Ver modal */}
                 <TouchableOpacity onPress={() => this.showModal() }> 
                 {
                     this.props.postData.data.comments == undefined ?
-                    <Text>No hay comentarios! Se el primero en comentar</Text> :
-                    <Text>Ver {this.props.postData.data.comments.length} comentarios</Text>
+                    <Text style={styles.texto}>No hay comentarios! Se el primero en comentar</Text> :
+                    <Text style={styles.texto}>Ver {this.props.postData.data.comments.length} comentarios</Text>
                     
                 } 
                 
-
                 </TouchableOpacity>
 
                 {/* Modal para comentarios */}
@@ -138,7 +150,7 @@ class Post extends Component{
                         {/* FlatList para mostrar comentarios */}
                         {
                             this.props.postData.data.comments === '' ?
-                            <Text>Aún no hay comentarios. Sé el primero en opinar!</Text> :
+                            <Text style={styles.texto}>Aún no hay comentarios. Sé el primero en opinar!</Text> :
                             <FlatList 
                                 data={this.props.postData.data.comments} //el array
                                 keyExtractor={(comment) => comment.createdAt.toString()} //es equivalente a la prop key que necesitamos para el map y comment es cada uno de los elementos del array
@@ -165,6 +177,14 @@ class Post extends Component{
                     </Modal> :
                     <Text> </Text>
                 }
+
+                   { 
+                   this.props.postData.data.owner == auth.currentUser.email ?
+                   <TouchableOpacity onPress={() => this.eliminarPosteo() }> 
+                            <Text style={styles.closeButton}>Eliminar posteo</Text>
+                    </TouchableOpacity> :
+                    <Text></Text>
+                    } 
                 
             </View>
         )
@@ -174,9 +194,6 @@ class Post extends Component{
 const styles = StyleSheet.create({
     container:{
         marginBottom: 20,
-        borderRadius: 4,
-        borderColor: '#ccc',
-        borderWidth: 1,
         padding: 10,
     },
     modalContainer:{
@@ -225,6 +242,9 @@ const styles = StyleSheet.create({
     },
     image:{
         height: 400,
+    },
+    texto:{
+        color: '#fff'
     }
 
 

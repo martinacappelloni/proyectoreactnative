@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Text, TouchableOpacity, View, StyleSheet, Image, ActivityIndicator, FlatList, TextInput} from 'react-native'
 import {db, auth} from '../firebase/config'
 import Post from '../components/Post';
+import Buscador from '../components/Buscador';
 
 class Home extends Component{
     constructor(props){
@@ -33,6 +34,8 @@ class Home extends Component{
     render(){
         return(
             <View style={styles.container}> 
+                <Buscador />
+            
                 <FlatList 
                     data={this.state.posteos}
                     keyExtractor={post => post.id}
@@ -47,6 +50,7 @@ const styles = StyleSheet.create({
         width: '100%',
         padding: 10,
         display: 'flex',
+        backgroundColor: '#302c2e',
     },
 })
 

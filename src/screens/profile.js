@@ -33,12 +33,17 @@ componentDidMount(){
     render(){
         console.log(this.props.userData)
         return(
-            <View>
+            <View style={styles.container}>
                 <View>
                     <Text>Email registrado: {this.props.userData.email}</Text>
                     <Text>User registrado: {this.props.userData.displayName}</Text>
                     {/* <Text>Usuario creado: {this.props.userData.metadata.creationTime}</Text> */}
                     <Text>Ultimo login: {this.props.userData.metadata.lastSignInTime}</Text>
+                    {
+                    this.state.posteos == undefined ?
+                    <Text>El usuario no ha realizado ninguna publicación</Text> :
+                    <Text>Cantidad de posteos del usuario: {this.state.posteos.length}</Text>
+                    }
                     <FlatList 
                     data={this.state.posteos}
                     keyExtractor={post => post.id}
@@ -79,6 +84,9 @@ const styles = StyleSheet.create({
     },
     text: {
         color: '#fff'
+    },
+    container:{
+        backgroundColor: '#302c2e',
     }
 })
 

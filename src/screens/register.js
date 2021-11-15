@@ -13,7 +13,7 @@ class Register extends Component{
 
     render(){
         return(
-            <View>
+            <View style={styles.container}>
                 <Text>Registrar</Text>
                 <View style={styles.formContainer}>
                     <TextInput
@@ -72,6 +72,9 @@ const styles = StyleSheet.create({
     },
     text: {
         color: '#fff'
+    },
+    container:{
+        backgroundColor: '#302c2e',
     }
 })
 
