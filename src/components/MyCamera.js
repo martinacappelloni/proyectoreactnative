@@ -80,10 +80,10 @@ render(){
                 />
                 <View>
                 <TouchableOpacity style={styles.camerabutton} onPress={()=> this.savePhoto()}>
-                    <Text> Aceptar </Text> 
+                    <Text style={styles.texto}> Aceptar </Text> 
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.camerabutton} onPress={()=> this.clear()}>
-                    <Text> Rechazar </Text> 
+                    <Text style={styles.texto}> Rechazar </Text> 
                 </TouchableOpacity>
                 </View>
             </React.Fragment> :
@@ -95,12 +95,12 @@ render(){
                     ref={(reference)=> this.camera = reference} 
                 />
                 <TouchableOpacity style={styles.camerabutton} onPress={()=> this.takePicture()}>
-                    <Text> Sacar Foto </Text> 
+                    <Text style={styles.texto}> Sacar Foto </Text> 
                 </TouchableOpacity>
             </View>
             :
             // render mensaje
-            <Text>No tienes permisos para usar la cámara</Text>
+            <Text style={styles.texto}>No tienes permisos para usar la cámara</Text>
         }
         </View>
     )
@@ -116,7 +116,10 @@ const styles = StyleSheet.create({
    camerabutton: {
     flex: 1,
     justifyContent: 'center',
-    },   
+    },  
+    texto: {
+        color: 'white',
+    }, 
 })
 
 export default MyCamera;
