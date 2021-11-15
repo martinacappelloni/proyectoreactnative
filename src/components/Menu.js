@@ -33,10 +33,11 @@ class Menu extends Component{
         })
     }
 
-    register(email, pass){
+    register(email, pass, username){
         auth.createUserWithEmailAndPassword(email, pass)
-            .then(() => {
-                console.log('registrado')
+            .then((res) => {
+                res.user.updateProfile({
+                    displayName: username})
             })
             .catch(error => {
                 console.log(error)
@@ -82,7 +83,7 @@ class Menu extends Component{
             {this.state.loggedIn == false ?
                 <Drawer.Navigator>
                     <Drawer.Screen name='Login' component={() => <Login login={(email, pass) => this.login(email, pass)} errorMessage={this.state.errorMessage} errorCode={this.state.errorCode} />} />
-                    <Drawer.Screen name='Registro' component={() => <Register register={(email, pass) => this.register(email, pass)} errorMessage={this.state.errorMessage} errorCode={this.state.errorCode}/>} />
+                    <Drawer.Screen name='Registro' component={() => <Register register={(email, pass, username) => this.register(email, pass, username)} errorMessage={this.state.errorMessage} errorCode={this.state.errorCode}/>} />
                 </Drawer.Navigator> :
                 <Drawer.Navigator>
                     <Drawer.Screen name='Home' component={() => <Home />} />

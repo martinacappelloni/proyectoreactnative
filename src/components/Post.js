@@ -85,21 +85,26 @@ class Post extends Component{
     }
 
     render(){
+        console.log(this.props.postData.data.comments);
         return(
             <View style={styles.container}>
+                <Image style={styles.image}
+                source={{uri: `${this.props.postData.data.photo}`}}
+                resizeMode='contain'
+                />
                 <Text>Texto del post: {this.props.postData.data.texto}</Text>
                 <Text>User: {this.props.postData.data.owner}</Text>
                 <Text>Fecha de creacion: {this.props.postData.data.createdAt}</Text>
                 { //Cambio de botones me gusta / quitar like
                     this.state.myLike === false ?
                     <TouchableOpacity onPress={() => this.darLike() }> 
-                        <Image style={styles.image}
+                        <Image style={styles.like}
                             source={require('../../assets/deslikeada.png')}
                             resizeMode='contain'
                         />
                     </TouchableOpacity> :
                     <TouchableOpacity onPress={() => this.quitarLike() }> 
-                        <Image style={styles.image}
+                        <Image style={styles.like}
                             source={require('../../assets/likeada.png')}
                             resizeMode='contain'
                         />
@@ -109,12 +114,13 @@ class Post extends Component{
 
                 {/* Ver modal */}
                 <TouchableOpacity onPress={() => this.showModal() }> 
-                {/* {
-                    this.props.postData.data.comments.length > 1 ?
-                    <Text>Ver {this.props.postData.data.comments.length} comentarios</Text> :
-                    <Text>Ver {this.props.postData.data.comments.length} comentario</Text> 
-                } */}
-                <Text>Ver comentarios</Text> 
+                {
+                    this.props.postData.data.comments == undefined ?
+                    <Text>No hay comentarios! Se el primero en comentar</Text> :
+                    <Text>Ver {this.props.postData.data.comments.length} comentarios</Text>
+                    
+                } 
+                
 
                 </TouchableOpacity>
 
@@ -213,13 +219,14 @@ const styles = StyleSheet.create({
     textButton: {
         color: '#fff',
     },
-    image:{
+    like:{
         height: 25,
-        // alignSelf: 'flex-start',
-        // position: 'absolute',
-        // left: 0,
-        // top: 5,
+       
+    },
+    image:{
+        height: 400,
     }
+
 
 })
 

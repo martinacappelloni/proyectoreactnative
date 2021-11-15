@@ -22,12 +22,7 @@ class Login extends Component{
                         placeholder='Email'
                         onChangeText={text => this.setState({email: text})}
                     />
-                    <TextInput
-                        style={styles.field}
-                        keyboardType='default'
-                        placeholder='Username'
-                        onChangeText={text => this.setState({username: text})}
-                    />
+
                     <TextInput
                         style={styles.field}
                         keyboardType='default'

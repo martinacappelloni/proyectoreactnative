@@ -36,7 +36,7 @@ class Register extends Component{
                         onChangeText={text => this.setState({password: text})}
                     />
                     <Text>{this.props.errorMessage}</Text>
-                    <TouchableOpacity style={styles.touchable} onPress={() => this.props.register(this.state.email, this.state.username, this.state.password)} > 
+                    <TouchableOpacity style={styles.touchable} onPress={() => this.props.register(this.state.email, this.state.password, this.state.username)} > 
                         <Text style={styles.text}>Registrar</Text>
                     </TouchableOpacity>
                 </View>

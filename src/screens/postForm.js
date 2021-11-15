@@ -11,6 +11,7 @@ constructor(props){
     this.state={
         textoPost: '',
         showCamera: true,
+        url: ''
     }
 }
 submitPost(){
@@ -19,7 +20,7 @@ submitPost(){
         owner: auth.currentUser.email,
         texto: this.state.textoPost,
         createdAt: Date.now(),
-        photo: this.state.url,
+        photo: this.state.url
     })
     .then(() =>{ // limpiar el form de cargo
         this.setState({
