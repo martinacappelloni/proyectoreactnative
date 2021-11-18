@@ -81,7 +81,7 @@ class Menu extends Component{
 
     render(){
         return(
-            <NavigationContainer style={styles.container}>
+            <NavigationContainer>
             {this.state.loggedIn == false ?
                 <Drawer.Navigator screenOptions={{
                     drawerStyle: {
