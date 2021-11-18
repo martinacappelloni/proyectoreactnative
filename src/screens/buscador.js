@@ -42,10 +42,8 @@ render(){
             <Text style={styles.textboton}> Buscar </Text> 
             </TouchableOpacity> 
                 {
-                   this.state.textSearch !== undefined ?
+                   this.state.posteos.length == 0 && this.state.textSearch.length > 0 ?
                     <Text> ¡Lo siento, usuario inexistente! </Text> :
-                    //     this.state.posteos == undefined ?
-                    // <Text> ¡Este usuario no tiene posteos todavía! </Text> :
                     <FlatList 
                     data={this.state.posteos}
                     keyExtractor={item => item.id}
@@ -64,6 +62,7 @@ const styles = StyleSheet.create({
         flex: 1,
         marginBottom: 100,
         backgroundColor: '#302c2e',
+        
     },
     formContainer: {
         paddingHorizontal: 10,

@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
     },
     container:{
         backgroundColor: '#302c2e',
+        flex: 1,
     },
     texto: {
         color: 'white',

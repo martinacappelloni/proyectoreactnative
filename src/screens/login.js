@@ -32,7 +32,7 @@ class Login extends Component{
                     />
                     <Text>{this.props.errorMessage}</Text>
                     {
-                        this.state.email == '' ?
+                        this.state.email == '' && this.state.password == '' ?
                         <TouchableOpacity disabled={true} style={styles.touchable} onPress={() => this.props.login(this.state.email, this.state.username, this.state.password)} > 
                         <Text style={styles.text}>Login</Text>
                     </TouchableOpacity>:
