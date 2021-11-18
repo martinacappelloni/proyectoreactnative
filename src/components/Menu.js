@@ -108,10 +108,4 @@ class Menu extends Component{
     }
 }
 
-const styles = StyleSheet.create({
-    container:{
-        color: '#5f9ea0',
-    },
-})
-
 export default Menu
