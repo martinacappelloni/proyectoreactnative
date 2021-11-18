@@ -81,13 +81,26 @@ class Menu extends Component{
 
     render(){
         return(
+<<<<<<< HEAD
             <NavigationContainer style={styles.container}>
+=======
+            <NavigationContainer >
+>>>>>>> ea3caa6e8873e52cb61a65d6a1b17f4e658b2b3a
             {this.state.loggedIn == false ?
-                <Drawer.Navigator>
+                <Drawer.Navigator screenOptions={{
+                    drawerStyle: {
+                        backgroundColor: '#d4d4d4',
+                    },
+                }}
+                >
                     <Drawer.Screen name='Login' component={() => <Login login={(email, pass) => this.login(email, pass)} errorMessage={this.state.errorMessage} errorCode={this.state.errorCode} />} />
                     <Drawer.Screen name='Registro' component={() => <Register register={(email, pass, username) => this.register(email, pass, username)} errorMessage={this.state.errorMessage} errorCode={this.state.errorCode}/>} />
                 </Drawer.Navigator> :
-                <Drawer.Navigator>
+                <Drawer.Navigator screenOptions={{
+                    drawerStyle: {
+                        backgroundColor: '#d4d4d4',
+                    },
+                }}>
                     <Drawer.Screen name='Home' component={() => <Home />} />
                     <Drawer.Screen name='Nuevo Post' component={(drawerProps) => <PostForm drawerProps={drawerProps} />} />
                     <Drawer.Screen name='Mi Perfil' component={() => <Profile logout={ () => this.logout()} userData={this.state.userData} />} />
