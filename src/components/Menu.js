@@ -81,11 +81,7 @@ class Menu extends Component{
 
     render(){
         return(
-<<<<<<< HEAD
-            <NavigationContainer style={styles.container}>
-=======
             <NavigationContainer >
->>>>>>> ea3caa6e8873e52cb61a65d6a1b17f4e658b2b3a
             {this.state.loggedIn == false ?
                 <Drawer.Navigator screenOptions={{
                     drawerStyle: {
@@ -111,11 +107,5 @@ class Menu extends Component{
         )
     }
 }
-
-const styles = StyleSheet.create({
-    container:{
-        color: '#5f9ea0',
-    },
-})
 
 export default Menu
