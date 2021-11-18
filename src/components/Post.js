@@ -202,7 +202,7 @@ class Post extends Component{
 const styles = StyleSheet.create({
     container:{
         borderRadius: 20,
-        // margin: 15,
+        margin: 15,
         boxShadow: '5px 5px 10px #1b1a1b, -5px -5px 10px #6b686d'
     },
     image:{
