@@ -2,6 +2,11 @@ import React, {Component} from 'react'
 import {Text, TouchableOpacity, View, StyleSheet, Modal, FlatList, TextInput, Image} from 'react-native'
 import { db, auth } from '../firebase/config';
 import firebase from 'firebase'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart as farFaHeart} from '@fortawesome/free-regular-svg-icons'
+import { faHeart as fasFaHeart} from '@fortawesome/free-solid-svg-icons'
+import { faUserCircle} from '@fortawesome/free-regular-svg-icons'
+
 
 class Post extends Component{
     constructor(props){
@@ -101,39 +106,36 @@ class Post extends Component{
         console.log(this.props.postData.data.comments);
         return(
             <View style={styles.container}>
-                <Text style={styles.texto}>User: {this.props.postData.data.owner}</Text>
-                <Image style={styles.image}
-                source={{uri: `${this.props.postData.data.photo}`}}
-                resizeMode='contain'
+                <Image
+                    style={styles.image}
+                    source={{uri: `${this.props.postData.data.photo}`}}
+                    resizeMode='contain'
                 />
-                <Text style={styles.texto}>Texto del post: {this.props.postData.data.texto}</Text>
-                <Text style={styles.texto}>Fecha de creacion: {this.props.postData.data.createdAt}</Text> 
-                { //Cambio de botones me gusta / quitar like
-                    this.state.myLike === false ?
-                    <TouchableOpacity onPress={() => this.darLike() }> 
-                        <Image style={styles.like}
-                            source={require('../../assets/deslikeada.png')}
-                            resizeMode='contain'
-                        />
-                    </TouchableOpacity> :
-                    <TouchableOpacity onPress={() => this.quitarLike() }> 
-                        <Image style={styles.like}
-                            source={require('../../assets/likeada.png')}
-                            resizeMode='contain'
-                        />
-                    </TouchableOpacity>
-                }
-                <Text style={styles.texto}>{this.state.likes} Likes</Text>
+
+                <View style={styles.subcontainer}>
+                    <Text style={styles.icon}> <FontAwesomeIcon icon={faUserCircle} /> </Text>
+                    <Text style={styles.owner}>{this.props.postData.data.owner}</Text>
+                    { // like - dislike
+                        this.state.myLike === false ?
+                        <TouchableOpacity  style={styles.icon} onPress={() => this.darLike() }> 
+                            <FontAwesomeIcon icon={farFaHeart} />
+                        </TouchableOpacity> :
+                        <TouchableOpacity style={styles.icon} onPress={() => this.quitarLike() }> 
+                            <FontAwesomeIcon icon={fasFaHeart} />
+                        </TouchableOpacity>
+                    }
+                    <Text style={styles.likeNumber}>{this.state.likes}</Text>
+                </View>
+
+                <Text style={styles.caption}> {this.props.postData.data.texto}</Text>
 
                 {/* Ver modal */}
-                <TouchableOpacity onPress={() => this.showModal() }> 
+                <TouchableOpacity style={styles.comments} onPress={() => this.showModal() }> 
                 {
                     this.props.postData.data.comments == undefined ?
-                    <Text style={styles.texto}>No hay comentarios! Se el primero en comentar</Text> :
-                    <Text style={styles.texto}>Ver {this.props.postData.data.comments.length} comentarios</Text>
-                    
+                    <Text style={styles.textoComentar}>Haz un comentario</Text> :
+                    <Text style={styles.textoComentar}>Ver {this.props.postData.data.comments.length} comentarios</Text> 
                 } 
-                
                 </TouchableOpacity>
 
                 {/* Modal para comentarios */}
@@ -148,15 +150,11 @@ class Post extends Component{
                             <Text style={styles.closeButton}>X</Text>
                         </TouchableOpacity>
                         {/* FlatList para mostrar comentarios */}
-                        {
-                            this.props.postData.data.comments === '' ?
-                            <Text style={styles.texto}>Aún no hay comentarios. Sé el primero en opinar!</Text> :
-                            <FlatList 
-                                data={this.props.postData.data.comments} //el array
-                                keyExtractor={(comment) => comment.createdAt.toString()} //es equivalente a la prop key que necesitamos para el map y comment es cada uno de los elementos del array
-                                renderItem={({item}) => <Text>{item.author}: {item.comment}</Text>}
-                            />
-                        }
+                        <FlatList 
+                            data={this.props.postData.data.comments} //el array
+                            keyExtractor={(comment) => comment.createdAt.toString()} //es equivalente a la prop key que necesitamos para el map y comment es cada uno de los elementos del array
+                            renderItem={({item}) => <Text>{item.author}: {item.comment}</Text>}
+                        />
                         
                         {/* Formulario para nuevo comentario */}
                         <View>
@@ -186,6 +184,7 @@ class Post extends Component{
                     </Modal> :
                     <Text> </Text>
                 }
+                <Text style={styles.fecha}>{new Date(this.props.postData.data.createdAt).toDateString().slice(4)} </Text>
 
                    { 
                    this.props.postData.data.owner == auth.currentUser.email ?
@@ -202,12 +201,61 @@ class Post extends Component{
 
 const styles = StyleSheet.create({
     container:{
-        marginBottom: 20,
-        padding: 10,
+        borderRadius: 20,
+        margin: 15,
+        boxShadow: '5px 5px 10px #1b1a1b, -5px -5px 10px #6b686d'
+    },
+    image:{
+        height: 258,
+        borderRadius: 20,
+        overflow: "hidden",
+    },
+    subcontainer:{
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        margin: 12,
+    },
+    owner:{
+        color: 'white',
+        fontSize: 16,
+        width: '70%',
+        fontWeight: 'bold',
+
+    },
+    icon:{
+        color: '#5f9ea0',
+        width: '10%',
+        fontSize: 22,
+    },
+    likeNumber:{
+        color: '#fff',
+        width: '10%',
+        fontSize: 16,
+    },
+    caption:{
+        paddingLeft: 10,
+        color: '#fff'
+    },
+    comments:{
+        width: '45%',
+        margin: '10',
+        paddingVertical: 5,
+        textAlign: 'center',
+        borderRadius: 20,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: '#fff',
+        alignSelf: 'center',
+    },
+    textoComentar:{
+        color: '#fff'
     },
     modalContainer:{
         width: '97%',
-        borderRadius: 4,
+        borderRadius: 20,
         padding: 5,
         alignSelf: 'center',
         boxShadow: 'rgb(204 204 204) 0px 0px 9px 7px',
@@ -219,7 +267,7 @@ const styles = StyleSheet.create({
         padding: 5,
         backgroundColor: '#dc4545',
         alignSelf: 'flex-end',
-        borderRadius: 4,
+        borderRadius: 20,
         paddingHorizontal: 8,
     },
     input: {
@@ -229,34 +277,33 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderStyle: 'solid',
         backgroundColor: '#ccc',
-        borderRadius: 6,
+        borderRadius: 10,
         marginVertical: 10,
     },
     button: {
-        backgroundColor: '#28a745',
+        backgroundColor: '#5f9ea0',
         paddingHorizontal: 10,
         paddingVertical: 6,
         textAlign: 'center',
-        borderRadius: 4,
+        borderRadius: 20,
         borderWidth: 1,
         borderStyle: 'solid',
-        borderColor: '#28a745',
+        borderColor: '#5f9ea0',
+        
     },
     textButton: {
         color: '#fff',
     },
-    like:{
-        height: 25,
-       
-    },
-    image:{
-        height: 400,
-    },
     texto:{
-        color: '#fff'
+        color: '#fff',
+        margin: 2,
+        paddingLeft: 10,
+    },
+    fecha: {
+        color: '#dadada',
+        paddingLeft: 12,
+        marginBottom: 10,
     }
-
-
 })
 
 export default Post
