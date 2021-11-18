@@ -31,9 +31,15 @@ class Login extends Component{
                         onChangeText={text => this.setState({password: text})}
                     />
                     <Text>{this.props.errorMessage}</Text>
-                    <TouchableOpacity style={styles.touchable} onPress={() => this.props.login(this.state.email, this.state.username, this.state.password)} > 
+                    {
+                        this.state.email == '' ?
+                        <TouchableOpacity disabled={true} style={styles.touchable} onPress={() => this.props.login(this.state.email, this.state.username, this.state.password)} > 
+                        <Text style={styles.text}>Login</Text>
+                    </TouchableOpacity>:
+                        <TouchableOpacity style={styles.touchable} onPress={() => this.props.login(this.state.email, this.state.username, this.state.password)} > 
                         <Text style={styles.text}>Login</Text>
                     </TouchableOpacity>
+                    }
                 </View>
             </View>
         )

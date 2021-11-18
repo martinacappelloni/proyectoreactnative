@@ -8,6 +8,7 @@ import Login from '../screens/login'
 import Register from '../screens/register'
 import Profile from '../screens/profile'
 import PostForm from '../screens/postForm'
+import Buscador from '../screens/buscador';
 
 const Drawer = createDrawerNavigator();
 
@@ -89,6 +90,7 @@ class Menu extends Component{
                     <Drawer.Screen name='Home' component={() => <Home />} />
                     <Drawer.Screen name='Nuevo Post' component={(drawerProps) => <PostForm drawerProps={drawerProps} />} />
                     <Drawer.Screen name='Mi Perfil' component={() => <Profile logout={ () => this.logout()} userData={this.state.userData} />} />
+                    <Drawer.Screen name='Buscador' component={() => <Buscador />} />
                 </Drawer.Navigator>
             }
             </NavigationContainer> 

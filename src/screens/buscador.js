@@ -1,35 +1,58 @@
 import React, {Component} from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, TextInput, FlatList } from 'react-native';
 import { auth, db } from '../firebase/config';
+import Post from '../components/Post';
 
 
 class Buscador extends Component{
 constructor(props){
     super(props);
     this.state={
-        textSearch: ''
+        textSearch: '',
+        posteos: [],
 
     }
 }
 
-/* submitSearch(){
-    db.collection('posts').where('createdAt', '==', this.props.postData.data.createdAt).onSnapshot(
-
-        
+submitSearch(){
+    db.collection('posts').where('owner', '==', this.state.textSearch).onSnapshot(
+        docs => {
+            let posts = [];
+            docs.forEach( doc => {
+                posts.push({
+                    id: docs.id,
+                    data: doc.data()
+                })
+                this.setState({
+                    posteos: posts,
+                })
+            })
+        }
     )
-} */
+}
 
 render(){
     return(
     <View style={styles.container}>
        <TextInput style={styles.field} 
-            keyboardType='default'
-            placeholder='Buscar'
+            keyboardType='email-address'
+            placeholder='Buscar usuario'
             onChangeText={ text => this.setState({textSearch:text})}/>
             <TouchableOpacity style={styles.boton} onPress={() => this.submitSearch()}>
             <Text style={styles.textboton}> Buscar </Text> 
             </TouchableOpacity> 
+                {
+                   this.state.textSearch !== undefined ?
+                    <Text> ¡Lo siento, usuario inexistente! </Text> :
+                    //     this.state.posteos == undefined ?
+                    // <Text> ¡Este usuario no tiene posteos todavía! </Text> :
+                    <FlatList 
+                    data={this.state.posteos}
+                    keyExtractor={item => item.id}
+                    renderItem={({item}) => <Post postData={item} />} />  
 
+                }  
+                 
            
     </View>
     )
@@ -40,6 +63,7 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         marginBottom: 100,
+        backgroundColor: '#302c2e',
     },
     formContainer: {
         paddingHorizontal: 10,

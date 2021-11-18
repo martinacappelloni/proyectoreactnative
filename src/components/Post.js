@@ -101,13 +101,13 @@ class Post extends Component{
         console.log(this.props.postData.data.comments);
         return(
             <View style={styles.container}>
-                <Text style={styles.texto}>User: {this.props.postData.data.displayName}</Text>
+                <Text style={styles.texto}>User: {this.props.postData.data.owner}</Text>
                 <Image style={styles.image}
                 source={{uri: `${this.props.postData.data.photo}`}}
                 resizeMode='contain'
                 />
                 <Text style={styles.texto}>Texto del post: {this.props.postData.data.texto}</Text>
-                <Text style={styles.texto}>Fecha de creacion: {this.props.postData.data.createdAt}</Text>
+                <Text style={styles.texto}>Fecha de creacion: {this.props.postData.data.createdAt}</Text> 
                 { //Cambio de botones me gusta / quitar like
                     this.state.myLike === false ?
                     <TouchableOpacity onPress={() => this.darLike() }> 
@@ -168,11 +168,20 @@ class Post extends Component{
                                 onChangeText={text => this.setState({comment: text})}
                                 value={this.state.comment}
                             />
+                        {
+                        this.state.comment == '' ?
+                        <TouchableOpacity disabled={true}
+                                style={styles.button}
+                                onPress={() => this.guardarComentario() }> 
+                                <Text style={styles.textButton}>Guardar comentario</Text>
+                            </TouchableOpacity>:
                             <TouchableOpacity
                                 style={styles.button}
                                 onPress={() => this.guardarComentario() }> 
                                 <Text style={styles.textButton}>Guardar comentario</Text>
                             </TouchableOpacity>
+                    }
+
                         </View>
                     </Modal> :
                     <Text> </Text>
