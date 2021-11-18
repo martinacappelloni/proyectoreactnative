@@ -64,35 +64,34 @@ render(){
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        backgroundColor: '#302c2e',
+        backgroundColor: '#4D4D4D',
     },
-    formContainer: {
+    formContainer:{
         paddingHorizontal: 10,
         marginBottom: 20,
-        
     },
-       field: {
+    field:{
         height: 20,
         paddingVertical: 15,
         paddingHorizontal: 10,
         borderWidth: 1,
-        borderColor:'#ccc',
+        borderColor:'#f0f0f0',
         borderStyle: 'solid',
         borderRadius: 6,
         marginVertical: 10,
-       },
-   boton:{
-    backgroundColor: '#28a745',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    textAlign: 'center',
-    borderRadius: 4,
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: '#28a745',
-   },
-   textboton:{
+    },
+    boton:{
+        backgroundColor: '#6db1b3',
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        textAlign: 'center',
+        borderRadius: 4,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: '#6db1b3',
+    },
+    textboton:{
        color: '#fff',
-   },
+    },
  }) 
  export default PostForm;

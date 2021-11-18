@@ -1,6 +1,11 @@
 import React, {Component} from 'react'
 import {Text, TouchableOpacity, View, StyleSheet, Image, ActivityIndicator, FlatList, TextInput} from 'react-native'
 import { db, auth } from '../firebase/config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEnvelope} from '@fortawesome/free-regular-svg-icons'
+import { faUserCircle} from '@fortawesome/free-regular-svg-icons'
+import { faHistory} from '@fortawesome/free-solid-svg-icons'
+import { faImages} from '@fortawesome/free-regular-svg-icons'
 import Post from '../components/Post';
 
 class Profile extends Component{
@@ -35,21 +40,26 @@ componentDidMount(){
         return(
             <View style={styles.container}>
                 <View>
-                    <Text style={styles.texto}>Email registrado: {this.props.userData.email}</Text>
-                    <Text style={styles.texto}>User registrado: {this.props.userData.displayName}</Text>
-                    {/* <Text>Usuario creado: {this.props.userData.metadata.creationTime}</Text> */}
-                    <Text style={styles.texto}>Ultimo login: {this.props.userData.metadata.lastSignInTime}</Text>
-                    {
-                    this.state.posteos == undefined ?
-                    <Text style={styles.texto}>El usuario no ha realizado ninguna publicación</Text> :
-                    <Text style={styles.texto} >Cantidad de posteos del usuario: {this.state.posteos.length}</Text>
-                    }
+                    <Image 
+                        style={styles.image}
+                        source={require('../../assets/retrica.png')}
+                        resizeMode="contain"
+                    />
+                    <Text style={styles.text}> <FontAwesomeIcon icon={faEnvelope} /> {this.props.userData.email}</Text>
+                    <Text style={styles.text}> <FontAwesomeIcon icon={faUserCircle} /> {this.props.userData.displayName}</Text>
+                    <Text style={styles.text}> <FontAwesomeIcon icon={faHistory} /> {this.props.userData.metadata.lastSignInTime}</Text>
                     <FlatList 
-                    data={this.state.posteos}
-                    keyExtractor={post => post.id}
-                    renderItem={({item}) => <Post postData={item} />} /> 
-                    <TouchableOpacity style={styles.touchable} onPress={() => this.props.logout(this.state.email, this.state.password)} > 
-                        <Text style={styles.text}>Logout</Text>
+                        data={this.state.posteos}
+                        keyExtractor={post => post.id}
+                        renderItem={({item}) => <Post postData={item} />}
+                    /> 
+                    {
+                        this.state.posteos == undefined ?
+                        <Text style={styles.text}>El usuario no ha realizado ninguna publicación</Text> :
+                        <Text style={styles.text} > <FontAwesomeIcon icon={faImages} /> {this.state.posteos.length}</Text>
+                    }
+                    <TouchableOpacity style={styles.button} onPress={() => this.props.logout(this.state.email, this.state.password)} > 
+                        <Text style={styles.logout}>Logout</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -58,40 +68,38 @@ componentDidMount(){
 }
 
 const styles = StyleSheet.create({
-    formContainer: {
+    container:{
+        backgroundColor: '#4D4D4D',
+        flex: 1,
         padding: 10,
-        marginTop: 10,
     },
-    field: {
-        height: 20,
-        paddingVertical: 15,
-        paddingHorizontal: 10,
-        borderWidth: 1,
-        borderStyle: 'solid',
-        backgroundColor: '#ccc',
-        borderRadius: 6,
-        marginVertical: 10,
+    image:{
+        height: 100,
+        alignSelf: 'center',
+        margin: 30,
     },
-    touchable: {
-        backgroundColor: '#28a745',
+    text:{
+        color:'#fff',
+        fontSize: 16,
+        marginHorizontal: 10,
+        marginVertical: 2,
+    },
+    button: {
+        backgroundColor: '#6db1b3',
         paddingHorizontal: 10,
         paddingVertical: 6,
         textAlign: 'center',
-        borderRadius: 4,
+        borderRadius: 10,
         borderWidth: 1,
         borderStyle: 'solid',
-        borderColor: '#28a745',
+        borderColor: '#6db1b3',
+        marginTop: 10,
+        width: '90%',
+        alignSelf: 'center',
     },
-    text: {
+    logout: {
         color: '#fff'
     },
-    container:{
-        backgroundColor: '#302c2e',
-        flex: 1,
-    },
-    texto: {
-        color: 'white',
-    }
 })
 
 export default Profile

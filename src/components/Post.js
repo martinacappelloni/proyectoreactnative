@@ -7,7 +7,6 @@ import { faHeart as farFaHeart} from '@fortawesome/free-regular-svg-icons'
 import { faHeart as fasFaHeart} from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle} from '@fortawesome/free-regular-svg-icons'
 
-
 class Post extends Component{
     constructor(props){
         super(props);
@@ -130,11 +129,11 @@ class Post extends Component{
                 <Text style={styles.caption}> {this.props.postData.data.texto}</Text>
 
                 {/* Ver modal */}
-                <TouchableOpacity style={styles.comments} onPress={() => this.showModal() }> 
+                <TouchableOpacity style={styles.verComentarios} onPress={() => this.showModal() }> 
                 {
                     this.props.postData.data.comments == undefined ?
-                    <Text style={styles.textoComentar}>Haz un comentario</Text> :
-                    <Text style={styles.textoComentar}>Ver {this.props.postData.data.comments.length} comentarios</Text> 
+                    <Text style={styles.textoVerComentarios}>Haz un comentario</Text> :
+                    <Text style={styles.textoVerComentarios}>Ver {this.props.postData.data.comments.length} comentarios</Text> 
                 } 
                 </TouchableOpacity>
 
@@ -149,15 +148,16 @@ class Post extends Component{
                         <TouchableOpacity onPress={() => this.hideModal() }> 
                             <Text style={styles.closeButton}>X</Text>
                         </TouchableOpacity>
+
                         {/* FlatList para mostrar comentarios */}
                         <FlatList 
                             data={this.props.postData.data.comments} //el array
                             keyExtractor={(comment) => comment.createdAt.toString()} //es equivalente a la prop key que necesitamos para el map y comment es cada uno de los elementos del array
-                            renderItem={({item}) => <Text>{item.author}: {item.comment}</Text>}
+                            renderItem={({item}) => <Text style={styles.comentarios}>{item.author}: {item.comment}</Text>}
                         />
                         
                         {/* Formulario para nuevo comentario */}
-                        <View>
+                        <View style={styles.inputContainer}>
                             <TextInput 
                                 style={styles.input}
                                 placeholder='Comentar...'
@@ -166,34 +166,32 @@ class Post extends Component{
                                 onChangeText={text => this.setState({comment: text})}
                                 value={this.state.comment}
                             />
-                        {
-                        this.state.comment == '' ?
-                        <TouchableOpacity disabled={true}
-                                style={styles.button}
-                                onPress={() => this.guardarComentario() }> 
-                                <Text style={styles.textButton}>Guardar comentario</Text>
-                            </TouchableOpacity>:
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={() => this.guardarComentario() }> 
-                                <Text style={styles.textButton}>Guardar comentario</Text>
-                            </TouchableOpacity>
-                    }
-
+                            {
+                            this.state.comment == '' ?
+                                <TouchableOpacity disabled={true}
+                                    style={styles.comentarButton}
+                                    onPress={() => this.guardarComentario() }> 
+                                    <Text style={styles.textButton}>Publicar</Text>
+                                </TouchableOpacity> :
+                                <TouchableOpacity
+                                    style={styles.comentarButton}
+                                    onPress={() => this.guardarComentario() }> 
+                                    <Text style={styles.textButton}>Publicar</Text>
+                                </TouchableOpacity>
+                            }
                         </View>
                     </Modal> :
                     <Text> </Text>
                 }
-                <Text style={styles.fecha}>{new Date(this.props.postData.data.createdAt).toDateString().slice(4)} </Text>
 
-                   { 
+                { 
                    this.props.postData.data.owner == auth.currentUser.email ?
-                   <TouchableOpacity onPress={() => this.eliminarPosteo() }> 
-                            <Text style={styles.closeButton}>Eliminar posteo</Text>
+                   <TouchableOpacity style={styles.eliminar} onPress={() => this.eliminarPosteo() }> 
+                            <Text style={styles.closeButton}>X</Text>
                     </TouchableOpacity> :
                     <Text></Text>
-                    } 
-                
+                } 
+                <Text style={styles.fecha}>{new Date(this.props.postData.data.createdAt).toDateString().slice(4)} </Text>
             </View>
         )
     }
@@ -203,7 +201,8 @@ const styles = StyleSheet.create({
     container:{
         borderRadius: 20,
         margin: 15,
-        boxShadow: '5px 5px 10px #1b1a1b, -5px -5px 10px #6b686d'
+        boxShadow: '5px 5px 10px #1b1a1b, -5px -5px 10px #6b686d',
+        backgroundColor: '#333333',
     },
     image:{
         height: 258,
@@ -223,7 +222,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         width: '70%',
         fontWeight: 'bold',
-
     },
     icon:{
         color: '#5f9ea0',
@@ -237,28 +235,31 @@ const styles = StyleSheet.create({
     },
     caption:{
         paddingLeft: 10,
-        color: '#fff'
+        color: '#fff',
+        marginBottom: 15,
     },
-    comments:{
+    verComentarios:{
         width: '45%',
         margin: '10',
         paddingVertical: 5,
         textAlign: 'center',
         borderRadius: 20,
+        borderColor: '#5f9ea0',
         borderWidth: 1,
         borderStyle: 'solid',
-        borderColor: '#fff',
         alignSelf: 'center',
     },
-    textoComentar:{
+    textoVerComentarios:{
         color: '#fff'
     },
     modalContainer:{
         width: '97%',
         borderRadius: 20,
-        padding: 5,
+        padding: 10,
         alignSelf: 'center',
-        boxShadow: 'rgb(204 204 204) 0px 0px 9px 7px',
+        boxShadow: '5px 5px 10px #1b1a1b, -5px -5px 10px #6b686d',
+        borderColor: '#2F2F2F',
+        backgroundColor: '#2F2F2F',
         marginTop: 20,
         marginBottom: 10,
     },
@@ -270,34 +271,45 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         paddingHorizontal: 8,
     },
-    input: {
+    comentarios:{
+        color: '#fff',
+        marginVertical: 5,
+    },
+    inputContainer:{
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+    },
+    input:{
         height: 20,
         paddingVertical: 15,
         paddingHorizontal: 10,
         borderWidth: 1,
         borderStyle: 'solid',
-        backgroundColor: '#ccc',
+        backgroundColor: '#f0f0f0',
         borderRadius: 10,
         marginVertical: 10,
+        width: '75%',
+        lineHeight: 5,
+        marginRight: 5,
     },
-    button: {
-        backgroundColor: '#5f9ea0',
-        paddingHorizontal: 10,
-        paddingVertical: 6,
+    comentarButton: {
+        backgroundColor: '#6db1b3',
+        padding: 5,
         textAlign: 'center',
-        borderRadius: 20,
-        borderWidth: 1,
-        borderStyle: 'solid',
-        borderColor: '#5f9ea0',
-        
+        borderRadius: 10,
+        width: '22%',
+        height: 30,
     },
     textButton: {
         color: '#fff',
     },
-    texto:{
-        color: '#fff',
-        margin: 2,
-        paddingLeft: 10,
+    eliminar:{
+        position: 'absolute',
+        top: 10,
+        alignSelf: 'flex-end',
+        marginRight: 10,
     },
     fecha: {
         color: '#dadada',

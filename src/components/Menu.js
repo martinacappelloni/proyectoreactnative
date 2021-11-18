@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {StyleSheet} from 'react-native'
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { auth } from "../firebase/config";
@@ -80,7 +81,7 @@ class Menu extends Component{
 
     render(){
         return(
-            <NavigationContainer>
+            <NavigationContainer style={styles.container}>
             {this.state.loggedIn == false ?
                 <Drawer.Navigator>
                     <Drawer.Screen name='Login' component={() => <Login login={(email, pass) => this.login(email, pass)} errorMessage={this.state.errorMessage} errorCode={this.state.errorCode} />} />
@@ -97,5 +98,11 @@ class Menu extends Component{
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container:{
+        color: '#5f9ea0',
+    },
+})
 
 export default Menu

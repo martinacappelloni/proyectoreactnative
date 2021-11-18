@@ -13,30 +13,33 @@ class Login extends Component{
 
     render(){
         return(
-            <View style= {styles.container}>
-                <Text>Login</Text>
-                <View style={styles.formContainer}>
+            <View style={styles.container}>
+                <Image 
+                    style={styles.image}
+                    source={require('../../assets/retrica.png')}
+                    resizeMode="contain"
+                />
+                <View>
                     <TextInput
-                        style={styles.field}
+                        style={styles.input}
                         keyboardType='email-address'
                         placeholder='Email'
                         onChangeText={text => this.setState({email: text})}
                     />
-
                     <TextInput
-                        style={styles.field}
+                        style={styles.input}
                         keyboardType='default'
                         placeholder='Password'
                         secureTextEntry={true}
                         onChangeText={text => this.setState({password: text})}
                     />
-                    <Text>{this.props.errorMessage}</Text>
+                    <Text style={styles.error}>{this.props.errorMessage}</Text>
                     {
                         this.state.email == '' && this.state.password == '' ?
-                        <TouchableOpacity disabled={true} style={styles.touchable} onPress={() => this.props.login(this.state.email, this.state.username, this.state.password)} > 
+                        <TouchableOpacity disabled={true} style={styles.button} onPress={() => this.props.login(this.state.email, this.state.username, this.state.password)} > 
                         <Text style={styles.text}>Login</Text>
                     </TouchableOpacity>:
-                        <TouchableOpacity style={styles.touchable} onPress={() => this.props.login(this.state.email, this.state.username, this.state.password)} > 
+                        <TouchableOpacity style={styles.button} onPress={() => this.props.login(this.state.email, this.state.username, this.state.password)} > 
                         <Text style={styles.text}>Login</Text>
                     </TouchableOpacity>
                     }
@@ -47,36 +50,48 @@ class Login extends Component{
 }
 
 const styles = StyleSheet.create({
-    formContainer: {
-        padding: 10,
-        marginTop: 10,
+    container: {
+        backgroundColor: '#4D4D4D',
+        flex: 1,
+        padding: 30,
     },
-    field: {
+    image:{
+        height: 200,
+        alignSelf: 'center',
+        margin: 30,
+    },
+    input: {
         height: 20,
         paddingVertical: 15,
         paddingHorizontal: 10,
         borderWidth: 1,
         borderStyle: 'solid',
-        backgroundColor: '#ccc',
-        borderRadius: 6,
-        marginVertical: 10,
+        borderColor:'#f0f0f0',
+        backgroundColor: '#f0f0f0',
+        borderRadius: 10,
+        marginTop: 15,
     },
-    touchable: {
-        backgroundColor: '#28a745',
+    error:{
+        color: '#fe5b4f',
+        alignSelf: 'center',
+        margin: 10,
+        fontWeight: 'bold'
+    },
+    button: {
+        backgroundColor: '#6db1b3',
         paddingHorizontal: 10,
         paddingVertical: 6,
         textAlign: 'center',
-        borderRadius: 4,
+        borderRadius: 10,
         borderWidth: 1,
         borderStyle: 'solid',
-        borderColor: '#28a745',
+        borderColor: '#6db1b3',
+        marginTop: 10,
     },
     text: {
-        color: '#fff'
+        color: '#fff',
+        fontWeight: 'bold'
     },
-    container: {
-        backgroundColor: '#302c2e',
-    }
 })
 
 export default Login

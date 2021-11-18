@@ -34,24 +34,23 @@ submitSearch(){
 render(){
     return(
     <View style={styles.container}>
-       <TextInput style={styles.field} 
+       <TextInput style={styles.input} 
             keyboardType='email-address'
             placeholder='Buscar usuario'
-            onChangeText={ text => this.setState({textSearch:text})}/>
-            <TouchableOpacity style={styles.boton} onPress={() => this.submitSearch()}>
-            <Text style={styles.textboton}> Buscar </Text> 
-            </TouchableOpacity> 
-                {
-                   this.state.posteos.length == 0 && this.state.textSearch.length > 0 ?
-                    <Text> ¡Lo siento, usuario inexistente! </Text> :
-                    <FlatList 
+            onChangeText={ text => this.setState({textSearch:text})}
+        />
+        <TouchableOpacity style={styles.button} onPress={() => this.submitSearch()}>
+            <Text style={styles.textButton}> Buscar </Text> 
+        </TouchableOpacity> 
+            {
+               this.state.posteos.length == 0 && this.state.textSearch.length > 0 ?
+                <Text style={styles.noUser}> ¡Lo siento, usuario inexistente! </Text> :
+                <FlatList 
                     data={this.state.posteos}
                     keyExtractor={item => item.id}
-                    renderItem={({item}) => <Post postData={item} />} />  
-
-                }  
-                 
-           
+                    renderItem={({item}) => <Post postData={item} />}
+                />  
+            }      
     </View>
     )
 }
@@ -60,37 +59,40 @@ render(){
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        marginBottom: 100,
-        backgroundColor: '#302c2e',
-        
+        backgroundColor: '#4D4D4D',    
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        padding: 10,
     },
-    formContainer: {
-        paddingHorizontal: 10,
-        marginBottom: 20,
-        
-    },
-       field: {
+    input:{
         height: 20,
         paddingVertical: 15,
         paddingHorizontal: 10,
         borderWidth: 1,
-        borderColor:'#ccc',
+        borderColor:'#f0f0f0',
+        backgroundColor: '#f0f0f0',
         borderStyle: 'solid',
-        borderRadius: 6,
-        marginVertical: 10,
-       },
-   boton:{
-    backgroundColor: '#28a745',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    textAlign: 'center',
-    borderRadius: 4,
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: '#28a745',
-   },
-   textboton:{
-       color: '#fff',
-   },
+        borderRadius: 10,
+        width: '74%',
+        marginRight: 5,
+    },
+    button:{
+        backgroundColor: '#6db1b3',
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        textAlign: 'center',
+        borderRadius: 10,
+        width: '24%',
+        height: 30,
+    },
+    textButton:{
+        color: '#fff',
+    },
+    noUser:{
+        color: '#fff',
+    }
  }) 
  export default Buscador;
