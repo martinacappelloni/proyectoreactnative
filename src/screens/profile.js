@@ -40,11 +40,11 @@ componentDidMount(){
         return(
             <View style={styles.container}>
                 <View>
-                    <Image 
+                    {/* <Image 
                         style={styles.image}
                         source={require('../../assets/retrica.png')}
                         resizeMode="contain"
-                    />
+                    /> */}
                     <Text style={styles.text}> <FontAwesomeIcon icon={faEnvelope} /> {this.props.userData.email}</Text>
                     <Text style={styles.text}> <FontAwesomeIcon icon={faUserCircle} /> {this.props.userData.displayName}</Text>
                     <Text style={styles.text}> <FontAwesomeIcon icon={faHistory} /> {this.props.userData.metadata.lastSignInTime}</Text>

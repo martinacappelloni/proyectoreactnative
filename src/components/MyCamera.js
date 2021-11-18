@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import {Camera} from 'expo-camera'
 import { auth, db, storage } from '../firebase/config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faThumbsUp} from '@fortawesome/free-solid-svg-icons'
+import { faThumbsDown} from '@fortawesome/free-solid-svg-icons'
 
 class MyCamera extends Component{
     constructor(props){
@@ -69,22 +72,23 @@ clear(){
 render(){
     return(
         <View style={styles.container}>
-        {
+            {
             this.state.permission ?
-        
-                this.state.showCamera === false ? 
+            this.state.showCamera === false ? 
             <React.Fragment>
                 <Image
-                style={styles.cameraBody}
-                source={{uri:this.state.photo}}
+                    style={styles.cameraBody}
+                    source={{uri:this.state.photo}}
                 />
-                <View>
-                <TouchableOpacity style={styles.camerabutton} onPress={()=> this.savePhoto()}>
-                    <Text style={styles.texto}> Aceptar </Text> 
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.camerabutton} onPress={()=> this.clear()}>
-                    <Text style={styles.texto}> Rechazar </Text> 
-                </TouchableOpacity>
+                <View style={styles.upDownContainer}>
+                    <TouchableOpacity style={styles.thumbsUp} onPress={()=> this.savePhoto()}>
+                        {/* <Text style={styles.texto}> Aceptar </Text>  */}
+                        <FontAwesomeIcon icon={faThumbsUp} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.thumbsDown} onPress={()=> this.clear()}>
+                        {/* <Text style={styles.texto}> Rechazar </Text>  */}
+                        <FontAwesomeIcon icon={faThumbsDown} />
+                    </TouchableOpacity>
                 </View>
             </React.Fragment> :
             // render de la cámara
@@ -94,7 +98,7 @@ render(){
                     type={Camera.Constants.Type.back}
                     ref={(reference)=> this.camera = reference} 
                 />
-                <TouchableOpacity style={styles.camerabutton} onPress={()=> this.takePicture()}>
+                <TouchableOpacity style={styles.takePicture} onPress={()=> this.takePicture()}>
                     <Text style={styles.texto}> Sacar Foto </Text> 
                 </TouchableOpacity>
             </View>
@@ -112,14 +116,39 @@ const styles = StyleSheet.create({
     },
     cameraBody: {
         flex: 7,
-   },
-   camerabutton: {
-    flex: 1,
-    justifyContent: 'center',
-    },  
-    texto: {
-        color: 'white',
-    }, 
+    },
+    upDownContainer:{
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+        padding: 20,
+    },
+    thumbsUp:{
+       color: '#6db1b3',
+       fontSize: 50,
+    },
+    thumbsDown:{
+        color: '#dc4545',
+        fontSize: 50,
+    },
+    takePicture:{
+        backgroundColor: '#6db1b3',
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        textAlign: 'center',
+        borderRadius: 10,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: '#6db1b3',
+        marginTop: 10,
+        width: '90%',
+        alignSelf: 'center',
+    },
+    texto:{
+        color: '#fff',
+        alignSelf: 'center',
+    }
 })
 
 export default MyCamera;
