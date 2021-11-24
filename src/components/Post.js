@@ -13,8 +13,8 @@ class Post extends Component{
         this.state = {
             likes: 0,
             myLike: false, 
-            showModal: false, //esto es para la vista del modal
-            comment: '', //para limpiar el campo despues de enviar
+            showModal: false, 
+            comment: '',
         }
     }
 
@@ -29,26 +29,21 @@ class Post extends Component{
     }
 
     darLike(){
-        //Agregar mi usuario a un array de usuarios que likearon
-        //Updatear el registro (documento)
         db.collection('posts').doc(this.props.postData.id).update({
-            likes: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email)         //identificamos el posteo y le agregamos el usuario que le dio like
+            likes: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email) //identificamos el posteo y le agregamos el usuario que le dio like
         })
-        //Cambiar estado
         .then(() => (
             this.setState({
                 likes: this.state.likes + 1,
-                myLike: true, //aca decidimos si le mostramos el me gusta o el quitar like
+                myLike: true,
             })
         ))        
     }
 
     quitarLike(){
-        //Quitar mi usuario de un array de usuarios que likearon
         db.collection('posts').doc(this.props.postData.id).update({
-            likes: firebase.firestore.FieldValue.arrayRemove(auth.currentUser.email)
+            likes: firebase.firestore.FieldValue.arrayRemove(auth.currentUser.email) //Quitar mi usuario de un array de usuarios que likearon
         })
-        //Cambiar estado
         .then(() => (
             this.setState({
                 likes: this.state.likes - 1,
@@ -62,6 +57,7 @@ class Post extends Component{
             showModal: true,
         })
     }
+    
     hideModal(){
         this.setState({
             showModal: false,
@@ -76,7 +72,6 @@ class Post extends Component{
             comment: this.state.comment
         }
         //guardarlo en una coleccion: modificar un posteo
-        //identificar el documento/post que queremos modificar
         db.collection('posts').doc(this.props.postData.id).update({
             comments: firebase.firestore.FieldValue.arrayUnion(oneComment),
         })
@@ -91,8 +86,6 @@ class Post extends Component{
     eliminarPosteo(){
         db.collection('posts').where('createdAt', '==', this.props.postData.data.createdAt).onSnapshot(
             docs => {
-                console.log(docs);
-
                 //Array para crear datos en formato útil
                 docs.forEach( doc => {
                     doc.ref.delete()
@@ -102,7 +95,6 @@ class Post extends Component{
     }
 
     render(){
-        console.log(this.props.postData.data.comments);
         return(
             <View style={styles.container}>
                 <Image
@@ -166,8 +158,8 @@ class Post extends Component{
                                 onChangeText={text => this.setState({comment: text})}
                                 value={this.state.comment}
                             />
-                            {
-                            this.state.comment == '' ?
+                            { 
+                                this.state.comment == '' ?
                                 <TouchableOpacity disabled={true}
                                     style={styles.comentarButton}
                                     onPress={() => this.guardarComentario() }> 

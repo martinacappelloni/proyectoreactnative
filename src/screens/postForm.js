@@ -5,60 +5,61 @@ import { auth, db } from '../firebase/config';
 
 
 class PostForm extends Component{
-constructor(props){
-    super(props);
-    this.state={
-        textoPost: '',
-        showCamera: true,
-        url: ''
-    }
-}
-submitPost(){
-    console.log('posteando..');
-    db.collection('posts').add({
-        owner: auth.currentUser.email,
-        texto: this.state.textoPost,
-        createdAt: Date.now(),
-        username: auth.currentUser.displayName,
-        photo: this.state.url
-    })
-    .then(() =>{ // limpiar el form de cargo
-        this.setState({
-            textoPost: ''
-        })
-        // Redirección
-        this.props.drawerProps.navigation.navigate('Home')
-    })
-    .catch( e => console.log(e))
-}
-onImageUpload(url){
-    this.setState({
-        showCamera: false,
-        url: url,
-    })
-}
-
-render(){
-    return(
-        <View style={styles.container}>
-            {
-            this.state.showCamera ?
-            <MyCamera onImageUpload={(url)=> {this.onImageUpload(url)}}/>:
-            <View style={styles.formContainer}>
-            <TextInput style={styles.field} 
-            keyboardType='default'
-            multiline
-            placeholder='Escribí aquí'
-            onChangeText={ text => this.setState({textoPost:text}) }/>
-        
-            <TouchableOpacity style={styles.boton} onPress={() => this.submitPost()}>
-            <Text style={styles.textboton}> Guardar </Text> 
-            </TouchableOpacity> 
-        </View>
+    constructor(props){
+        super(props);
+        this.state={
+            textoPost: '',
+            showCamera: true,
+            url: ''
         }
-    </View>
-    )
-}
+    }
+
+    submitPost(){
+        db.collection('posts').add({
+            owner: auth.currentUser.email,
+            texto: this.state.textoPost,
+            createdAt: Date.now(),
+            username: auth.currentUser.displayName,
+            photo: this.state.url,
+        })
+        .then(() =>{
+            this.setState({
+                textoPost: '',
+            })
+            // Redirección
+            this.props.drawerProps.navigation.navigate('Home')
+        })
+        .catch( e => console.log(e))
+    }
+
+    onImageUpload(url){
+        this.setState({
+            showCamera: false,
+            url: url,
+        })
+    }
+
+    render(){
+        return(
+            <View style={styles.container}>
+                {
+                this.state.showCamera ?
+                <MyCamera onImageUpload={(url)=> {this.onImageUpload(url)}}/> :
+                <View style={styles.formContainer}>
+                    <TextInput style={styles.input} 
+                        keyboardType='default'
+                        multiline
+                        placeholder='Escribí aquí'
+                        onChangeText={ text => this.setState({textoPost:text})}
+                    />
+                    <TouchableOpacity style={styles.button} onPress={() => this.submitPost()}>
+                        <Text style={styles.textboton}> Guardar </Text> 
+                    </TouchableOpacity> 
+                </View>
+                }
+            </View>
+        )
+    }
 }
      
 const styles = StyleSheet.create({
@@ -70,28 +71,33 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginBottom: 20,
     },
-    field:{
+    input: {
         height: 20,
         paddingVertical: 15,
         paddingHorizontal: 10,
         borderWidth: 1,
-        borderColor:'#f0f0f0',
         borderStyle: 'solid',
-        borderRadius: 6,
-        marginVertical: 10,
+        borderColor:'#f0f0f0',
+        backgroundColor: '#f0f0f0',
+        borderRadius: 10,
+        marginTop: 15,
     },
-    boton:{
+    button: {
         backgroundColor: '#6db1b3',
         paddingHorizontal: 10,
         paddingVertical: 6,
         textAlign: 'center',
-        borderRadius: 4,
+        borderRadius: 10,
         borderWidth: 1,
         borderStyle: 'solid',
         borderColor: '#6db1b3',
+        marginTop: 10,
+        width: '90%',
+        alignSelf: 'center',
     },
     textboton:{
        color: '#fff',
+       fontWeight: 'bold',
     },
  }) 
  export default PostForm;

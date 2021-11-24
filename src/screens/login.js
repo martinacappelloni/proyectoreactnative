@@ -1,12 +1,11 @@
 import React, {Component} from 'react'
-import {Text, TouchableOpacity, View, StyleSheet, Image, ActivityIndicator, FlatList, TextInput} from 'react-native'
+import {Text, TouchableOpacity, View, StyleSheet, TextInput} from 'react-native'
 
 class Login extends Component{
     constructor(props){
         super(props);
         this.state = {
             email:'',
-            username:'',
             password:'',
         }
     }
@@ -14,36 +13,30 @@ class Login extends Component{
     render(){
         return(
             <View style={styles.container}>
-                <Image 
-                    style={styles.image}
-                    source={require('../../assets/retrica.png')}
-                    resizeMode="contain"
+                <Text style={styles.textIniciar}>Iniciar Sesión</Text>
+                <TextInput
+                    style={styles.input}
+                    keyboardType='email-address'
+                    placeholder='Email'
+                    onChangeText={text => this.setState({email: text})}
                 />
-                <View>
-                    <TextInput
-                        style={styles.input}
-                        keyboardType='email-address'
-                        placeholder='Email'
-                        onChangeText={text => this.setState({email: text})}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        keyboardType='default'
-                        placeholder='Password'
-                        secureTextEntry={true}
-                        onChangeText={text => this.setState({password: text})}
-                    />
-                    <Text style={styles.error}>{this.props.errorMessage}</Text>
-                    {
-                        this.state.email == '' && this.state.password == '' ?
-                        <TouchableOpacity disabled={true} style={styles.button} onPress={() => this.props.login(this.state.email, this.state.username, this.state.password)} > 
+                <TextInput
+                    style={styles.input}
+                    keyboardType='default'
+                    placeholder='Password'
+                    secureTextEntry={true}
+                    onChangeText={text => this.setState({password: text})}
+                />
+                <Text style={styles.error}>{this.props.errorMessage}</Text>
+                {
+                    this.state.email == '' && this.state.password == '' ?
+                    <TouchableOpacity disabled={true} style={styles.button} onPress={() => this.props.login(this.state.email, this.state.password)} > 
                         <Text style={styles.text}>Login</Text>
-                    </TouchableOpacity>:
-                        <TouchableOpacity style={styles.button} onPress={() => this.props.login(this.state.email, this.state.username, this.state.password)} > 
+                    </TouchableOpacity> :
+                    <TouchableOpacity style={styles.button} onPress={() => this.props.login(this.state.email, this.state.password)} > 
                         <Text style={styles.text}>Login</Text>
                     </TouchableOpacity>
-                    }
-                </View>
+                }
             </View>
         )
     }
@@ -55,10 +48,11 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 30,
     },
-    image:{
-        height: 200,
-        alignSelf: 'center',
-        margin: 30,
+    textIniciar: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 18,
+        marginVertical: 10,
     },
     input: {
         height: 20,

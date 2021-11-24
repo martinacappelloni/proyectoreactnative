@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, View, StyleSheet, Image, ActivityIndicator, FlatList, TextInput} from 'react-native'
-import {db, auth} from '../firebase/config'
+import {View, StyleSheet, FlatList} from 'react-native'
+import { db } from '../firebase/config'
 import Post from '../components/Post';
 
 class Home extends Component{
@@ -14,7 +14,6 @@ class Home extends Component{
     componentDidMount(){
         db.collection('posts').orderBy('createdAt', 'desc').onSnapshot(
             docs => { 
-                //Array para crear datos en formato mas util
                 let posts = [];
                 docs.forEach(doc => {
                     posts.push({
@@ -33,14 +32,14 @@ class Home extends Component{
     render(){
         return(
             <View style={styles.container}> 
-            
                 <FlatList 
                     data={this.state.posteos}
                     keyExtractor={post => post.id}
-                    renderItem={({item}) => <Post postData={item} />} />  
+                    renderItem={({item}) => <Post postData={item} />}
+                />  
             </View>
         )
-    };
+    }
 }
 
 const styles = StyleSheet.create({

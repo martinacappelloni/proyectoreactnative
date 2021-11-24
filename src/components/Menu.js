@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {StyleSheet} from 'react-native'
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { auth } from "../firebase/config";
@@ -70,36 +69,34 @@ class Menu extends Component{
     }
 
     logout(){
-        auth.signOut() //deslogueamos de firebase y elimina los datos internos del usuario
+        auth.signOut()
         .then(res => {
             this.setState({
                 loggedIn: false,
                 userData: '',
             })
-        }) 
+        })
+        .catch(error => {
+            console.log(error)
+            this.setState({
+                errorMessage: error.message,
+                errorCode: error.code,
+            })
+        })
     }
 
     render(){
         return(
             <NavigationContainer>
-            {this.state.loggedIn == false ?
-                <Drawer.Navigator screenOptions={{
-                    drawerStyle: {
-                        backgroundColor: '#d4d4d4',
-                    },
-                }}
-                >
+            { this.state.loggedIn == false ?
+                <Drawer.Navigator screenOptions={{ drawerStyle: {backgroundColor: '#d4d4d4'} }}>
                     <Drawer.Screen name='Login' component={() => <Login login={(email, pass) => this.login(email, pass)} errorMessage={this.state.errorMessage} errorCode={this.state.errorCode} />} />
-                    <Drawer.Screen name='Registro' component={() => <Register register={(email, pass, username) => this.register(email, pass, username)} errorMessage={this.state.errorMessage} errorCode={this.state.errorCode}/>} />
+                    <Drawer.Screen name='Register' component={() => <Register register={(email, pass, username) => this.register(email, pass, username)} errorMessage={this.state.errorMessage} errorCode={this.state.errorCode} />} />
                 </Drawer.Navigator> :
-                <Drawer.Navigator screenOptions={{
-                    drawerStyle: {
-                        backgroundColor: '#d4d4d4',
-                    },
-                }}>
+                <Drawer.Navigator screenOptions={{ drawerStyle: {backgroundColor: '#d4d4d4'} }}>
                     <Drawer.Screen name='Home' component={() => <Home />} />
                     <Drawer.Screen name='Nuevo Post' component={(drawerProps) => <PostForm drawerProps={drawerProps} />} />
-                    <Drawer.Screen name='Mi Perfil' component={() => <Profile logout={ () => this.logout()} userData={this.state.userData} />} />
+                    <Drawer.Screen name='Mi Perfil' component={() => <Profile logout={()=> this.logout()} userData={this.state.userData} />} />
                     <Drawer.Screen name='Buscador' component={() => <Buscador />} />
                 </Drawer.Navigator>
             }

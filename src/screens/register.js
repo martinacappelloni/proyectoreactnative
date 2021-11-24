@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Text, TouchableOpacity, View, StyleSheet, Image, ActivityIndicator, FlatList, TextInput} from 'react-native'
+import {Text, TouchableOpacity, View, StyleSheet, TextInput} from 'react-native'
 
 class Register extends Component{
     constructor(props){
@@ -14,42 +14,36 @@ class Register extends Component{
     render(){
         return(
             <View style={styles.container}>
-                <Image 
-                    style={styles.image}
-                    source={require('../../assets/retrica.png')}
-                    resizeMode="contain"
+                <Text style={styles.textRegistrate}>Registrate</Text>
+                <TextInput
+                    style={styles.input}
+                    keyboardType='email-address'
+                    placeholder='Email'
+                    onChangeText={text => this.setState({email: text})}
                 />
-                <View>
-                    <TextInput
-                        style={styles.input}
-                        keyboardType='email-address'
-                        placeholder='Email'
-                        onChangeText={text => this.setState({email: text})}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        keyboardType='default'
-                        placeholder='Username'
-                        onChangeText={text => this.setState({username: text})}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        keyboardType='default'
-                        placeholder='Password'
-                        secureTextEntry={true}
-                        onChangeText={text => this.setState({password: text})}
-                    />
-                    <Text style={styles.error}>{this.props.errorMessage}</Text>
-                    {
-                        this.state.email == '' && this.state.username == '' && this.state.password == ''?
-                       <TouchableOpacity disabled={true} style={styles.button} onPress={() => this.props.register(this.state.email, this.state.password, this.state.username)} > 
-                       <Text style={styles.text}>Registrar</Text>
-                        </TouchableOpacity>:
-                        <TouchableOpacity style={styles.button} onPress={() => this.props.register(this.state.email, this.state.password, this.state.username)} > 
-                        <Text style={styles.text}>Registrar</Text>
+                <TextInput
+                    style={styles.input}
+                    keyboardType='default'
+                    placeholder='Username'
+                    onChangeText={text => this.setState({username: text})}
+                />
+                <TextInput
+                    style={styles.input}
+                    keyboardType='default'
+                    placeholder='Password'
+                    secureTextEntry={true}
+                    onChangeText={text => this.setState({password: text})}
+                />
+                <Text style={styles.error}>{this.props.errorMessage}</Text>
+                {
+                    this.state.email == '' && this.state.username == '' && this.state.password == ''?
+                    <TouchableOpacity disabled={true} style={styles.button} onPress={() => this.props.register(this.state.email, this.state.password, this.state.username)} > 
+                        <Text style={styles.text}>Register</Text>
+                    </TouchableOpacity> :
+                    <TouchableOpacity style={styles.button} onPress={() => this.props.register(this.state.email, this.state.password, this.state.username)} > 
+                        <Text style={styles.text}>Register</Text>
                     </TouchableOpacity>
-                    }
-                </View>
+                }
             </View>
         )
     }
@@ -61,10 +55,11 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 30,
     },
-    image:{
-        height: 200,
-        alignSelf: 'center',
-        margin: 30,
+    textRegistrate: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 18,
+        marginVertical: 10,
     },
     input: {
         height: 20,
